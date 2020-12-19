@@ -67,7 +67,6 @@ public class Launcher {
     public static final String MAIN_CLASS = "com.dtstack.flinkx.Main";
 
     public static void main(String[] args) throws Exception {
-        setLogLevel(Level.DEBUG.toString());
         OptionParser optionParser = new OptionParser(args);
         Options launcherOptions = optionParser.getOptions();
         findDefaultConfigDir(launcherOptions);
@@ -116,7 +115,7 @@ public class Launcher {
         }
     }
 
-    private static JobGraph buildJobGraph(Options launcherOptions, String[] remoteArgs) throws Exception {
+    public static JobGraph buildJobGraph(Options launcherOptions, String[] remoteArgs) throws Exception {
         String pluginRoot = launcherOptions.getPluginRoot();
         String content = launcherOptions.getJob();
         String coreJarName = getCoreJarFileName(pluginRoot);
@@ -162,7 +161,6 @@ public class Launcher {
 
         return urlList;
     }
-
     private static void findDefaultConfigDir(Options launcherOptions) {
         findDefaultPluginRoot(launcherOptions);
 
@@ -267,12 +265,5 @@ public class Launcher {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static void setLogLevel(String level) {
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        //设置全局日志级别
-        ch.qos.logback.classic.Logger logger = loggerContext.getLogger("root");
-        logger.setLevel(Level.toLevel(level));
     }
 }
